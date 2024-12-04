@@ -5,7 +5,9 @@ declare(strict_types=1);
 namespace App\Controller;
 
 use App\Services\UserService;
+use DtmClient\Saga;
 use Hyperf\HttpServer\Contract\RequestInterface;
+use Hyperf\HttpServer\Annotation\GetMapping;
 use Hyperf\HttpServer\Annotation\Controller;
 use Hyperf\HttpServer\Annotation\PostMapping;
 use Hyperf\Di\Annotation\Inject;
@@ -24,6 +26,47 @@ class SagaController extends AbstractController
      */
     #[Inject]
     protected UserService $userService;
+
+
+    /**
+     * @param RequestInterface $request
+     * @return string[]
+     */
+    #[GetMapping(path: 'successCase')]
+    public function successCase(RequestInterface $request): array
+    {
+        //$saga = new Saga();
+        $payload1 = [
+            'user_id'=>1,
+            'amount'=>1,
+            'order_no'=>date("Ymd"),
+        ];
+        $payload2 = [
+            'order_no' => date("Ymd"),
+            'user_id' => 1,
+            'coupon_id' => 1,
+            'order_money' => 10,
+            'order_discount' => 8,
+            'consume_number' => 1,
+            'order_status' => 0,
+            'payment' => 1,
+        ];
+        //return $payload2;
+        $serviceUri = 'http://192.168.10.34:9553';
+        $serviceUri2 = 'http://192.168.10.34:9552';
+
+        //$saga->init();
+        //$saga->add($serviceUri . '/saga/changeStored', $serviceUri . '/saga/changeStoredCompensate', $payload1);
+        //$saga->add($serviceUri2 . '/saga/sageCreateOrder', $serviceUri2 . '/saga/sageCreateOrderCompensate', $payload2);
+        //$saga->submit();
+
+        $res =  [
+            'dtm_result' => 'SUCCESS',
+        ];
+
+        return $res;
+
+    }
 
     /**
      * 改变储值成功

@@ -15,4 +15,5 @@
 */*.cache
 */watch
 */composer.lock
+*/composer.log
 */service.log
